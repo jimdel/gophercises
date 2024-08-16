@@ -1,23 +1,22 @@
 package jsonParser
 
 import (
+	"cyoa/helpers"
 	"cyoa/types"
 	"encoding/json"
-	"log"
 	"os"
 )
 
 func ReadAndParse(fp string) types.CYOAGameConfig {
 	data, err := os.ReadFile(fp)
-	if err != nil {
-		log.Fatal(err)
-	}
+	helpers.CheckError(err)
 	cyoa := parseJson(data)
 	return cyoa
 }
 
 func parseJson(jsonBytes []byte) types.CYOAGameConfig {
 	var target types.CYOAGameConfig
-	json.Unmarshal(jsonBytes, &target)
+	err := json.Unmarshal(jsonBytes, &target)
+	helpers.CheckError(err)
 	return target
 }
